@@ -84,7 +84,7 @@ mrt = {
         },
 "TYMC": {
     "Airport_line":
-        {"台北車站(AP_line)": 0, "三重(AP_line)": 4.1, "新北產業園區(AP_line)": 7.6, "新莊副都心": 9, "泰山": 9.9, "泰山貴和（明志科大）": 12.7, "體育大學（龜山樂善）": 17.3, "長庚醫院": 20, "林口": 21.2, "緊急停靠站": 25.1, "山鼻": 29.6, "坑口": 31.6, "機場第一航廈": 34.8, "機場第二航廈": 35.8, "機場第三航廈": 36.4, "機場旅館": 37.1, "大園": 39.1, "橫山": 41.4, "領航（大園國際高中）": 42.9, "高鐵桃園站": 44.5, "桃園體育園區": 46.3, "興南": 49.2, "環北": 50.8, "老街溪": 51.33}
+        {"台北車站": 0, "三重": 4.1, "新北產業園": 7.6, "新莊副都心": 9, "泰山": 9.9, "泰山貴和（明志科大）": 12.7, "體育大學（龜山樂善）": 17.3, "長庚醫院": 20, "林口": 21.2, "緊急停靠站": 25.1, "山鼻": 29.6, "坑口": 31.6, "機場第一航廈": 34.8, "機場第二航廈": 35.8, "機場第三航廈": 36.4, "機場旅館": 37.1, "大園": 39.1, "橫山": 41.4, "領航（大園國際高中）": 42.9, "高鐵桃園站": 44.5, "桃園體育園區": 46.3, "興南": 49.2, "環北": 50.8, "老街溪": 51.33}
         }
 }
 transStation = {
@@ -106,7 +106,7 @@ mrtList =pd.DataFrame(mrtList0)
 #處理台北捷運站名跟里程表(csv格式)
 TRTC_CSV = "95_TRTC.csv"
 TRTC_stations = []
-TRTC_odometer = []
+TRTC_odometer = [] #台北捷運的里程表
 
 with open(TRTC_CSV, "rb") as response:
     encoding = chardet.detect(response.read())["encoding"]
@@ -124,8 +124,8 @@ with open(TRTC_CSV, mode= "r", encoding= encoding) as f:
 
 #creat odometer
 
-odometer_index = [i for i in mrtList["station"]] + TRTC_stations
-odometer_columns= [i for i in mrtList["station"]] + TRTC_stations
+odometer_index = list(set([i for i in mrtList["station"]] + TRTC_stations))
+odometer_columns= list(set([i for i in mrtList["station"]] + TRTC_stations))
 
 odometer = pd.DataFrame(index= odometer_index, columns= odometer_columns)
 
@@ -160,7 +160,7 @@ for item in TRTC_odometer:
         odometer.loc[item[0], item[1]] = "-"
 
 #TYMR and TRTC
-TRTC_transport_station = {"台北車站": "台北車站(AP_line)" , "三重": "三重(AP_line)", "新北產業園區": "新北產業園區(AP_line)", "丹鳳": "泰山貴和（明志科大）"}
+TRTC_transport_station = {"台北車站": "台北車站" , "三重": "三重", "新北產業園區": "新北產業園區", "丹鳳": "泰山貴和（明志科大）"}
 
 totDis = []
 
